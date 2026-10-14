@@ -1,0 +1,66 @@
+/* ==========================================================================
+   Project-to-Industry Intelligence Platform - Print Stylesheet
+   ========================================================================== */
+
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+  }
+
+  .app-header,
+  .nav-tabs,
+  .btn,
+  .btn-icon,
+  .filter-bar,
+  .upload-dropzone,
+  .quick-load-banner,
+  .progress-panel,
+  .modal-footer,
+  .toast-container,
+  #modalCloseBtn {
+    display: none !important;
+  }
+
+  /* When modal is open during print, expand full page */
+  .modal-overlay {
+    position: static !important;
+    background: transparent !important;
+    padding: 0 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    display: block !important;
+  }
+
+  .modal-container {
+    max-width: 100% !important;
+    max-height: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  .modal-body {
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  .deliverable-card,
+  .field-card {
+    border: 1px solid #ccc !important;
+    background: #fafafa !important;
+    page-break-inside: avoid;
+  }
+
+  .badge {
+    border: 1px solid #666 !important;
+    color: #000 !important;
+    background: transparent !important;
+  }
+
+  .print-page-break {
+    page-break-after: always;
+  }
+}

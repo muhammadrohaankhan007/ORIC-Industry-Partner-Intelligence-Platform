@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHU Industry Partner Intelligence Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>SHU</h1>
+                    <p>Industry Partner Intelligence Platform</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-icon" id="settingsBtn" title="Settings">⚙️</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <button class="nav-btn active" data-view="home">Home</button>
+            <button class="nav-btn" data-view="assessment">New Assessment</button>
+            <button class="nav-btn" data-view="dashboard">Dashboard</button>
+            <button class="nav-btn" data-view="organizations">Organizations</button>
+            <button class="nav-btn" data-view="comparison">Compare</button>
+            <button class="nav-btn" data-view="settings">Settings</button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- HOME VIEW -->
+            <section id="view-home" class="view active">
+                <div class="home-container">
+                    <div class="welcome-section">
+                        <h1>Welcome to SHU Industry Partner Intelligence Platform</h1>
+                        <p>Strategically assess university-industry partnerships and unlock mutual value creation.</p>
+                    </div>
+
+                    <div class="quick-stats">
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalOrganizations">0</div>
+                            <div class="stat-label">Organizations Assessed</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalProjects">0</div>
+                            <div class="stat-label">Potential Projects</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalValue">PKR 0</div>
+                            <div class="stat-label">Estimated Annual Value</div>
+                        </div>
+                    </div>
+
+                    <div class="action-cards">
+                        <div class="action-card" onclick="switchView('assessment')">
+                            <div class="action-icon">📋</div>
+                            <h3>New Assessment</h3>
+                            <p>Assess a new industry partner organization</p>
+                            <button class="btn-primary">Start Now</button>
+                        </div>
+                        <div class="action-card" onclick="switchView('organizations')">
+                            <div class="action-icon">🏢</div>
+                            <h3>Manage Organizations</h3>
+                            <p>View, edit, or delete existing assessments</p>
+                            <button class="btn-primary">View All</button>
+                        </div>
+                        <div class="action-card" onclick="switchView('comparison')">
+                            <div class="action-icon">📊</div>
+                            <h3>Compare Partners</h3>
+                            <p>Compare multiple organizations side-by-side</p>
+                            <button class="btn-primary">Compare</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ASSESSMENT VIEW -->
+            <section id="view-assessment" class="view">
+                <div class="assessment-container">
+                    <h2>SHU Industry Partner Assessment</h2>
+
+                    <div class="assessment-tabs">
+                        <button class="tab-btn active" data-tab="basic-info">Basic Information</button>
+                        <button class="tab-btn" data-tab="agreement-info">Agreement Details</button>
+                        <button class="tab-btn" data-tab="optional-info">Additional Info</button>
+                        <button class="tab-btn" data-tab="research-data">Research/Import</button>
+                    </div>
+
+                    <!-- Basic Information Tab -->
+                    <div id="tab-basic-info" class="tab-content active">
+                        <div class="form-section">
+                            <h3>Organization Information</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Organization Name *</label>
+                                    <input type="text" id="orgName" placeholder="Enter organization name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Website</label>
+                                    <input type="url" id="orgWebsite" placeholder="https://example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label>Country *</label>
+                                    <input type="text" id="orgCountry" placeholder="e.g., Pakistan" value="Pakistan" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>City</label>
+                                    <input type="text" id="orgCity" placeholder="e.g., Karachi">
+                                </div>
+                                <div class="form-group">
+                                    <label>Industry *</label>
+                                    <input type="text" id="orgIndustry" placeholder="e.g., Pharmaceutical" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Sub-Industry</label>
+                                    <input type="text" id="orgSubIndustry" placeholder="e.g., Drug Manufacturing">
+                                </div>
+                                <div class="form-group">
+                                    <label>Year Established</label>
+                                    <input type="number" id="orgYearEstablished" placeholder="e.g., 2010" min="1900" max="2100">
+                                </div>
+                                <div class="form-group">
+                                    <label>Organization Type *</label>
+                                    <select id="orgType" required>
+                                        <option value="">Select type</option>
+                                        <option value="Private Company">Private Company</option>
+                                        <option value="Public Company">Public Company</option>
+                                        <option value="Government">Government Organization</option>
+                                        <option value="NGO">NGO</option>
+                                        <option value="Multinational">Multinational</option>
+                                        <option value="Startup">Startup</option>
+                                        <option value="SME">SME</option>
+                                        <option value="Financial Institution">Financial Institution</option>
+                                        <option value="Hospital/Healthcare">Hospital/Healthcare</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Agreement Details Tab -->
+                    <div id="tab-agreement-info" class="tab-content">
+                        <div class="form-section">
+                            <h3>SHU Agreement Information</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Type of Agreement *</label>
+                                    <select id="agreementType" required>
+                                        <option value="">Select agreement type</option>
+                                        <option value="MOU">Memorandum of Understanding (MOU)</option>
+                                        <option value="MoA">Memorandum of Agreement (MoA)</option>
+                                        <option value="Strategic Partnership">Strategic Partnership</option>
+                                        <option value="Sponsored Research">Sponsored Research</option>
+                                        <option value="Consultancy">Consultancy Agreement</option>
+                                        <option value="Training">Training Agreement</option>
+                                        <option value="Internship">Internship Agreement</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Date of Agreement</label>
+                                    <input type="date" id="agreementDate">
+                                </div>
+                                <div class="form-group">
+                                    <label>Agreement Duration (months)</label>
+                                    <input type="number" id="agreementDuration" placeholder="e.g., 12" min="1" value="12">
+                                </div>
+                                <div class="form-group">
+                                    <label>SHU Contact Person</label>
+                                    <input type="text" id="shuContact" placeholder="Name and title">
+                                </div>
+                                <div class="form-group">
+                                    <label>Organization Contact Person</label>
+                                    <input type="text" id="orgContact" placeholder="Name and title">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Existing Areas of Collaboration</label>
+                                <textarea id="existingCollaboration" placeholder="Describe current collaboration areas" rows="4"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Optional Information Tab -->
+                    <div id="tab-optional-info" class="tab-content">
+                        <div class="form-section">
+                            <h3>Optional Information</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Known Annual Revenue (PKR)</label>
+                                    <input type="number" id="orgRevenue" placeholder="e.g., 500000000">
+                                </div>
+                                <div class="form-group">
+                                    <label>Known Employee Count</label>
+                                    <input type="number" id="orgEmployees" placeholder="e.g., 150">
+                                </div>
+                                <div class="form-group">
+                                    <label>Number of Branches</label>
+                                    <input type="number" id="orgBranches" placeholder="e.g., 5">
+                                </div>
+                                <div class="form-group">
+                                    <label>Known Investment (PKR)</label>
+                                    <input type="number" id="orgInvestment" placeholder="e.g., 100000000">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Organization Description</label>
+                                <textarea id="orgDescription" placeholder="Brief description of what the organization does" rows="5"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Existing Projects with SHU</label>
+                                <textarea id="existingProjects" placeholder="Describe any existing projects" rows="4"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Research/Import Data Tab -->
+                    <div id="tab-research-data" class="tab-content">
+                        <div class="form-section">
+                            <h3>Manual Research / Data Import Mode</h3>
+                            <div class="info-box">
+                                <p><strong>Note:</strong> For Version 1, the application operates in Manual Research mode. Paste publicly available information below to enrich the assessment.</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Company Profile / Website Information</label>
+                                <textarea id="websiteInfo" placeholder="Paste company description, mission, vision, products/services" rows="6"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Financial Information (Annual Report Extract)</label>
+                                <textarea id="financialInfo" placeholder="Paste revenue, growth, profitability data" rows="5"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>News & Market Information</label>
+                                <textarea id="newsInfo" placeholder="Paste relevant news, market trends, expansion plans" rows="5"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>LinkedIn / Professional Information</label>
+                                <textarea id="linkedinInfo" placeholder="Paste team information, job postings, growth signals" rows="5"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="form-actions">
+                        <button class="btn-primary btn-large" id="analyzeBtn">ANALYZE ORGANIZATION</button>
+                        <button class="btn-secondary" onclick="resetAssessmentForm()">Clear Form</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DASHBOARD VIEW -->
+            <section id="view-dashboard" class="view">
+                <div class="dashboard-container">
+                    <div id="noDashboardData" class="empty-state">
+                        <p>📊 No organization selected. Go to Organizations to select one.</p>
+                    </div>
+                    <div id="dashboardContent" style="display: none;">
+                        <!-- Dashboard will be populated dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ORGANIZATIONS VIEW -->
+            <section id="view-organizations" class="view">
+                <div class="organizations-container">
+                    <div class="orgs-header">
+                        <h2>Saved Assessments</h2>
+                        <div class="filter-group">
+                            <input type="text" id="searchOrg" placeholder="Search organizations..." class="search-input">
+                            <select id="filterIndustry" class="filter-select">
+                                <option value="">All Industries</option>
+                            </select>
+                            <select id="filterStatus" class="filter-select">
+                                <option value="">All Status</option>
+                                <option value="Active">Active</option>
+                                <option value="Developing">Developing</option>
+                                <option value="MOU">MOU</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="organizationsList" class="orgs-grid">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- COMPARISON VIEW -->
+            <section id="view-comparison" class="view">
+                <div class="comparison-container">
+                    <h2>Compare Organizations</h2>
+                    <div class="comparison-controls">
+                        <div class="form-group">
+                            <label>Select Organizations to Compare (max 4)</label>
+                            <div id="comparisonSelectors" class="comparison-selectors">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+                        <button class="btn-primary" id="doComparisonBtn">Generate Comparison</button>
+                    </div>
+                    <div id="comparisonResults" class="comparison-results">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- SETTINGS VIEW -->
+            <section id="view-settings" class="view">
+                <div class="settings-container">
+                    <h2>Administrator Settings</h2>
+
+                    <div class="settings-tabs">
+                        <button class="tab-btn active" data-tab="faculties">Faculties</button>
+                        <button class="tab-btn" data-tab="costs">Cost Ranges</button>
+                        <button class="tab-btn" data-tab="system">System</button>
+                    </div>
+
+                    <!-- Faculties Tab -->
+                    <div id="tab-faculties" class="tab-content active">
+                        <div class="form-section">
+                            <h3>SHU Faculties & Research Areas</h3>
+                            <div id="facultiesContainer">
+                                <!-- Populated dynamically -->
+                            </div>
+                            <button class="btn-secondary" id="addFacultyBtn">+ Add Faculty</button>
+                        </div>
+                    </div>
+
+                    <!-- Cost Ranges Tab -->
+                    <div id="tab-costs" class="tab-content">
+                        <div class="form-section">
+                            <h3>Project Cost Ranges (PKR)</h3>
+                            <table class="settings-table">
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Min</th>
+                                        <th>Max</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="costRangesTable">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- System Tab -->
+                    <div id="tab-system" class="tab-content">
+                        <div class="form-section">
+                            <h3>System Settings</h3>
+                            <div class="form-group">
+                                <label>Default Currency</label>
+                                <select id="defaultCurrency">
+                                    <option value="PKR">PKR (Pakistani Rupee)</option>
+                                    <option value="USD">USD (US Dollar)</option>
+                                    <option value="AED">AED (UAE Dirham)</option>
+                                    <option value="GBP">GBP (British Pound)</option>
+                                    <option value="EUR">EUR (Euro)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Partnership Weights (for scoring)</label>
+                                <div id="weightSliders" class="weight-sliders">
+                                    <!-- Populated dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <h3>Data Management</h3>
+                            <button class="btn-secondary" id="exportDataBtn">Export All Data (JSON)</button>
+                            <button class="btn-secondary" id="importDataBtn">Import Data (JSON)</button>
+                            <button class="btn-secondary" id="loadDemoBtn">Load Demo Data</button>
+                            <button class="btn-danger" id="clearDataBtn">Clear All Data</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>&copy; 2026 Salim Habib University. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Modal for organization details/edit -->
+    <div id="orgModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modalBody">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for report generation -->
+    <div id="reportModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="close-modal">&times;</span>
+            <div id="reportBody" class="report-content">
+                <!-- Populated dynamically -->
+            </div>
+            <div class="report-actions">
+                <button class="btn-primary" id="printReportBtn">Print Report</button>
+                <button class="btn-secondary" id="exportJsonReportBtn">Export as JSON</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

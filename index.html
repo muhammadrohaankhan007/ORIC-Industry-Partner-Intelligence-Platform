@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHU Industry Partner Intelligence & Opportunity Assessment Platform | Salim Habib University</title>
+  <meta name="description" content="Salim Habib University (SHU) ORIC University-Industry Partnership Intelligence System to assess strategic, academic, research, innovation, entrepreneurship and commercial value.">
+
+  <!-- Core Design System & Components -->
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <!-- Chart.js for High-Impact Visualizations (Local library with CDN fallback) -->
+  <script src="lib/chart.umd.min.js"></script>
+  <script>
+    if (typeof Chart === 'undefined') {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"><\/script>');
+    }
+  </script>
+</head>
+<body>
+
+  <!-- Demo Data Watermark Banner (Requirement 38) -->
+  <div class="demo-watermark-banner" id="demoWatermarkBanner">
+    <span><strong>DEMO DATA — NOT REAL ORGANIZATIONS:</strong> Simulated university assessment demonstrating sector-specific faculty opportunities.</span>
+    <span>Salim Habib University (SHU) ORIC</span>
+  </div>
+
+  <!-- Top App Navigation Header -->
+  <header class="app-header">
+    <div class="header-left">
+      <button class="mobile-menu-toggle" id="mobileMenuBtn" aria-label="Toggle Sidebar Navigation">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+
+      <div class="brand-badge">
+        <div class="brand-logo-emblem">SHU</div>
+        <div class="brand-text">
+          <h1>Salim Habib University</h1>
+          <span>ORIC • Industry Partner Intelligence Platform</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center: Active Partner Quick Switcher -->
+    <div class="header-center">
+      <div class="active-partner-selector-box">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--shu-blue-primary);"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <select class="partner-select-dropdown" id="headerPartnerSelect" aria-label="Select Active Partner Organization">
+          <!-- Populated dynamically -->
+        </select>
+      </div>
+    </div>
+
+    <!-- Right: Currency, Theme & Generate Report Action -->
+    <div class="header-right">
+      <!-- Live PSX Market Status Indicator -->
+      <div class="header-psx-status" title="Pakistan Stock Exchange (PSX) Live Market Feed Connected">
+        <span class="psx-pulse-green"></span>
+        <span>PSX: LIVE</span>
+      </div>
+
+      <!-- Currency Switcher (Requirement 33) -->
+      <div class="currency-toggle-group">
+        <button class="currency-btn active" data-curr="PKR" title="Pakistani Rupee">PKR</button>
+        <button class="currency-btn" data-curr="USD" title="US Dollar">USD</button>
+        <button class="currency-btn" data-curr="AED" title="UAE Dirham">AED</button>
+        <button class="currency-btn" data-curr="GBP" title="British Pound">GBP</button>
+        <button class="currency-btn" data-curr="EUR" title="Euro">EUR</button>
+      </div>
+
+      <!-- Theme Toggle Button -->
+      <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light / Dark Interface">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <span>Theme</span>
+      </button>
+
+      <!-- Generate Executive Report (Requirement 29) -->
+      <button class="header-action-btn btn-report-primary" id="btnGenerateExecutiveReport">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <span>GENERATE REPORT</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Live PSX Market Ticker Marquee Bar -->
+  <div class="psx-ticker-marquee-bar" id="psxTickerMarqueeBar">
+    <div class="psx-marquee-label">
+      <span class="psx-pulse-indicator"></span>
+      <span>PSX LIVE</span>
+    </div>
+    <div class="psx-ticker-track" id="psxTickerTrack">
+      <!-- Populated dynamically with real-time stock ticks -->
+    </div>
+    <button class="btn-sync-psx" id="btnSyncLivePsx" title="Refresh Live PSX Stock Quotes">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+      <span>SYNC LIVE</span>
+    </button>
+  </div>
+
+  <!-- App Shell -->
+  <div class="app-container">
+
+    <!-- Left Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="sidebar-nav-scroll">
+        
+        <div class="nav-group-label">Strategic Intelligence</div>
+        <button class="nav-link active" data-view="viewDashboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Executive Dashboard</span>
+        </button>
+
+        <button class="nav-link" data-view="viewAssessmentInput">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          <span>New Assessment / Input</span>
+        </button>
+
+        <button class="nav-link" data-view="viewProfile">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Organization Profile</span>
+        </button>
+
+        <button class="nav-link" data-view="viewMarketGrowth">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          <span>Market & Growth</span>
+        </button>
+
+        <button class="nav-link" data-view="viewCapacity">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          <span>Capacity & Innovation</span>
+        </button>
+
+        <button class="nav-link" data-view="viewStrategicFit">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span>Strategic Value to SHU</span>
+        </button>
+
+        <div class="nav-group-label">Academic & Research Mapping</div>
+        <button class="nav-link" data-view="viewFacultyMapping">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          <span>Faculty Opportunities</span>
+        </button>
+
+        <button class="nav-link" data-view="viewFacultyHeatmap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg>
+          <span>Faculty Opportunity Heatmap</span>
+        </button>
+
+        <button class="nav-link" data-view="viewCrossFaculty">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          <span>Cross-Faculty Projects</span>
+        </button>
+
+        <button class="nav-link" data-view="viewPortfolio">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span>Recommended Portfolio</span>
+        </button>
+
+        <button class="nav-link" data-view="viewCalculators">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+          <span>Project Calculators</span>
+        </button>
+
+        <div class="nav-group-label">Specialized Engines</div>
+        <button class="nav-link" data-view="viewStudents">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          <span>Students & Internships</span>
+        </button>
+
+        <button class="nav-link" data-view="viewResearch">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2v7.31"/><path d="M14 9.3V2"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 1 1-4 0"/><path d="M5.52 16h12.96"/></svg>
+          <span>Research & Commercialization</span>
+        </button>
+
+        <button class="nav-link" data-view="viewFinancial">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span>Financial Scenarios</span>
+        </button>
+
+        <button class="nav-link" data-view="viewRoadmap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>3-Year Roadmap & 5D Map</span>
+        </button>
+
+        <button class="nav-link" data-view="viewSources">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span>Sources & Evidence</span>
+        </button>
+
+        <div class="nav-group-label">Administration & Database</div>
+        <button class="nav-link" data-view="viewComparison">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span>Compare Partners</span>
+        </button>
+
+        <button class="nav-link" data-view="viewDatabase">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          <span>Partner Database</span>
+        </button>
+
+        <button class="nav-link" data-view="viewSettings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Admin Settings</span>
+        </button>
+
+      </div>
+
+      <div class="sidebar-footer">
+        <span>SHU ORIC Intelligence</span>
+        <span class="data-badge badge-verified">v1.0 Ready</span>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main">
+      <div class="content-viewport">
+
+        <!-- ==========================================================================
+             1. EXECUTIVE DASHBOARD (Requirement 25)
+             ========================================================================== -->
+        <section class="view-section active" id="viewDashboard">
+          <div class="view-header">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <h2 class="view-header-title" id="dashOrgName">The Searle Company Limited</h2>
+                <span class="calc-tier-badge" id="dashOrgStatus">Strategic Partnership • Active</span>
+              </div>
+              <p class="view-header-desc" id="dashOrgIndustry">Pharmaceuticals & Healthcare • Prescription Formulations, Biopharmaceuticals & Medical Devices</p>
+            </div>
+            <div class="view-header-actions">
+              <button class="btn-primary" onclick="SHU_APP.openReportModal()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                <span>View Full Executive Report</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 8 Visual Metric KPI Cards (Requirement 25) -->
+          <div class="kpi-cards-grid">
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Partnership Potential</span>
+                <span class="data-badge badge-analytical">POI</span>
+              </div>
+              <div class="kpi-value text-blue" id="kpiPoiValue">87/100</div>
+              <div class="kpi-sub">
+                <span>Weighted Multi-Dim Index</span>
+                <span class="conf-badge conf-high">High</span>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Expected Annual Revenue</span>
+                <span class="data-badge badge-calculated">EST</span>
+              </div>
+              <div class="kpi-value text-emerald" id="kpiExpectedRevenue">PKR 2.45 Cr</div>
+              <div class="kpi-sub">
+                <span>Sponsored R&D & Training</span>
+                <span>Expected Scenario</span>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Student Internships</span>
+                <span class="data-badge badge-calculated">CALC</span>
+              </div>
+              <div class="kpi-value text-purple" id="kpiInternshipCount">35 Seats</div>
+              <div class="kpi-sub">
+                <span>Annual Placement Capacity</span>
+                <span>8-Week Cycle</span>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Student FYP Capacity</span>
+                <span class="data-badge badge-estimated">EST</span>
+              </div>
+              <div class="kpi-value text-amber" id="kpiStudentProjects">55 FYPs</div>
+              <div class="kpi-sub">
+                <span>Across 5 SHU Faculties</span>
+                <span>Capstone Projects</span>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Research Synergy</span>
+                <span class="data-badge badge-analytical">R&D</span>
+              </div>
+              <div class="kpi-value text-blue" id="kpiResearchPotential">Strategic</div>
+              <div class="kpi-sub">
+                <span>Joint Publications & Grants</span>
+                <span class="conf-badge conf-high">High</span>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Workforce Scale</span>
+                <span class="data-badge badge-verified">VERIFIED</span>
+              </div>
+              <div class="kpi-value" id="kpiWorkforceScale">1,450 Staff</div>
+              <div class="kpi-sub">
+                <span>Technical & Operations</span>
+                <span>6 Facilities</span>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Qualitative Growth</span>
+                <span class="data-badge badge-analytical">0–100</span>
+              </div>
+              <div class="kpi-value text-emerald" id="kpiGrowthScore">84/100</div>
+              <div class="kpi-sub">
+                <span>Underlying Criteria Based</span>
+                <span>Expansion Trend</span>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Cross-Faculty Projects</span>
+                <span class="data-badge badge-analytical">MULTI</span>
+              </div>
+              <div class="kpi-value text-purple" id="kpiCrossProjects">2 Major</div>
+              <div class="kpi-sub">
+                <span>Interdisciplinary Initiatives</span>
+                <span>High Commercial Fit</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts Row 1: Radar Chart (9 Dimensions) & Bar Chart (Faculty Opportunities) -->
+          <div class="charts-grid-2col">
+            <div class="chart-card">
+              <div class="chart-header">
+                <div>
+                  <h3 class="chart-title">SHU Partnership Potential (9 Dimensions)</h3>
+                  <small class="text-muted">Radar evaluation across academic, research, innovation and commercial dimensions</small>
+                </div>
+                <span class="data-badge badge-analytical">ANALYTICAL</span>
+              </div>
+              <div class="chart-canvas-wrapper">
+                <canvas id="chartRadarPartnership"></canvas>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-header">
+                <div>
+                  <h3 class="chart-title">Faculty Opportunity Valuation</h3>
+                  <small class="text-muted">Estimated project value generation mapped across SHU faculties</small>
+                </div>
+                <span class="data-badge badge-calculated">CALCULATED</span>
+              </div>
+              <div class="chart-canvas-wrapper">
+                <canvas id="chartFacultyOpportunities"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts Row 2: Opportunity Distribution Donut & Financial Scenarios Overview -->
+          <div class="charts-grid-2col">
+            <div class="chart-card">
+              <div class="chart-header">
+                <div>
+                  <h3 class="chart-title">Opportunity Portfolio Distribution</h3>
+                  <small class="text-muted">Proportional breakdown of collaborative activities</small>
+                </div>
+                <span class="data-badge badge-analytical">PORTFOLIO</span>
+              </div>
+              <div class="chart-canvas-wrapper">
+                <canvas id="chartOpportunityDonut"></canvas>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-header">
+                <div>
+                  <h3 class="chart-title">Annual Financial Scenarios (PKR)</h3>
+                  <small class="text-muted">Conservative, expected target, and high opportunity bounds</small>
+                </div>
+                <span class="data-badge badge-estimated">ESTIMATED</span>
+              </div>
+              <div class="chart-canvas-wrapper">
+                <canvas id="chartScenariosBar"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             2. ASSESSMENT INPUT & RESEARCH IMPORT SCREEN (Requirement 4 & 5)
+             ========================================================================== -->
+        <section class="view-section" id="viewAssessmentInput">
+          <div class="view-header">
+            <div>
+              <h2 class="view-header-title">SHU Industry Partner Assessment</h2>
+              <p class="view-header-desc">Enter organization information, agreement parameters, and paste intelligence documents to generate assessment.</p>
+            </div>
+            <div class="view-header-actions">
+              <span class="text-muted" style="font-size: 0.8rem;">Auto-Fill Verified Real Partner:</span>
+              <button class="btn-secondary" id="btnFillSamplePharma">The Searle Company</button>
+              <button class="btn-secondary" id="btnFillSampleTech">Systems Limited</button>
+              <button class="btn-secondary" id="btnFillSampleHealth">Getz Pharma</button>
+            </div>
+          </div>
+
+          <form id="partnerAssessmentForm">
+            <div class="card-panel">
+              <div class="card-panel-header">
+                <h3 class="panel-title">1. Organization Information</h3>
+                <span class="data-badge badge-verified">PRIMARY INPUTS</span>
+              </div>
+              
+              <div class="form-grid-2col">
+                <div class="form-group">
+                  <label class="form-label" for="inpOrgName">Organization Name *</label>
+                  <input type="text" id="inpOrgName" class="form-input" required placeholder="e.g. Apex Pharma Solutions Ltd.">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="inpWebsite">Website URL</label>
+                  <input type="url" id="inpWebsite" class="form-input" placeholder="https://www.example.com">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="inpCountry">Country</label>
+                  <input type="text" id="inpCountry" class="form-input" value="Pakistan">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="inpCity">City</label>
+                  <input type="text" id="inpCity" class="form-input" value="Karachi">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="inpIndustry">Industry</label>
+                  <input type="text" id="inpIndustry" class="form-input" placeholder="e.g. Pharmaceuticals & Biotechnology">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="inpSubIndustry">Sub-Industry</label>
+                  <input type="text" id="inpSubIndustry" class="form-input" placeholder="e.g. Formulation, Biologics & API Synthesis">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="inpYearEstablished">Year Established</label>
+                  <input type="number" id="inpYearEstablished" class="form-input" value="2010">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="inpOrgType">Organization Type</label>
+                  <select id="inpOrgType" class="form-select">
+                    <option value="Private Company">Private Company</option>
+                    <option value="Public Company">Public Company</option>
+                    <option value="Multinational">Multinational</option>
+                    <option value="Startup">Startup</option>
+                    <option value="SME">SME</option>
+                    <option value="Government Organization">Government Organization</option>
+                    <option value="NGO">NGO</option>
+                    <option value="Financial Institution">Financial Institution</option>
+                    <option value="Hospital/Healthcare">Hospital/Healthcare</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-panel">
+              <div class="card-panel-header">
+                <h3 class="panel-title">2. SHU Agreement Details</h3>
+                <span class="data-badge badge-verified">INSTITUTIONAL MOU</span>
+              </div>
+              <div class="form-grid-2col">
+                <div class="form-group">
+                  <label class="form-label" for="inpAgreementType">Type of Agreement</label>
+                  <select id="inpAgreementType" class="form-select">
+                    <option value="MOU">MOU (Memorandum of Understanding)</option>
+                    <option value="MoA">MoA (Memorandum of Agreement)</option>
+                    <option value="Strategic Partnership">Strategic Partnership</option>
+                    <option value="Sponsored Research">Sponsored Research</option>
+                    <option value="Consultancy Agreement">Consultancy Agreement</option>
+                    <option value="Training Agreement">Training Agreement</option>
+                    <option value="Internship Agreement">Internship Agreement</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="inpAgreementDate">Date of Agreement</label>
+                  <input type="date" id="inpAgreementDate" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="inpAgreementDuration">Agreement Duration (Months)</label>
+                  <input type="number" id="inpAgreementDuration" class="form-input" value="36">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="inpShuContact">SHU Contact Person / Dean</label>
+                  <input type="text" id="inpShuContact" class="form-input" placeholder="e.g. Prof. Dr. Dean of Pharmacy">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="inpOrgContact">Organization Contact Person</label>
+                  <input type="text" id="inpOrgContact" class="form-input" placeholder="e.g. VP Scientific Affairs & Head of R&D">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="inpExistingAreas">Existing Areas of Collaboration</label>
+                  <input type="text" id="inpExistingAreas" class="form-input" placeholder="e.g. Formulation stability testing, student internships">
+                </div>
+              </div>
+            </div>
+
+            <div class="card-panel">
+              <div class="card-panel-header">
+                <h3 class="panel-title">3. Optional Organization Metrics</h3>
+                <span class="data-badge badge-estimated">BUSINESS CAPACITY</span>
+              </div>
+              <div class="form-grid-2col">
+                <div class="form-group">
+                  <label class="form-label" for="inpRevenue">Known Annual Revenue (PKR)</label>
+                  <input type="number" id="inpRevenue" class="form-input" placeholder="e.g. 5000000000">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="inpEmployees">Known Employee Count</label>
+                  <input type="number" id="inpEmployees" class="form-input" placeholder="e.g. 1200">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="inpBranches">Known Operational Branches / Facilities</label>
+                  <input type="number" id="inpBranches" class="form-input" placeholder="e.g. 6">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="inpDescription">Brief Organization Description</label>
+                  <input type="text" id="inpDescription" class="form-input" placeholder="Core operations, market leadership, and focus">
+                </div>
+              </div>
+
+              <!-- Manual Research / Data Import Mode (Requirement 5) -->
+              <div class="manual-import-box">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                  <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--shu-blue-primary);">
+                    Manual Research / Data Import Mode (Requirement 5)
+                  </h4>
+                  <span class="data-badge badge-verified">UNSTRUCTURED RESEARCH</span>
+                </div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+                  Paste website information, annual reports, LinkedIn extracts, news articles, or financial profiles. The SHU Intelligence Engine will parse key signals without fabricating information.
+                </p>
+                <textarea id="inpManualResearchText" class="form-textarea" rows="5" placeholder="Paste annual report text, company background, executive mentions, or news articles here..."></textarea>
+              </div>
+
+              <div style="margin-top: 1.5rem; text-align: right;">
+                <button type="submit" class="btn-primary" id="btnAnalyzeOrg" style="padding: 0.85rem 2rem; font-size: 1rem;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>ANALYZE ORGANIZATION</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </section>
+
+        <!-- ==========================================================================
+             3. ORGANIZATION PROFILE (Requirement 6)
+             ========================================================================== -->
+        <section class="view-section" id="viewProfile">
+          <div class="view-header">
+            <div>
+              <h2 class="view-header-title">Comprehensive Organization Profile</h2>
+              <p class="view-header-desc">Detailed business overview, operational footprint, ownership, and core value proposition.</p>
+            </div>
+            <div>${renderDataBadge("VERIFIED")}</div>
+          </div>
+
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h3 class="panel-title">Basic Profile</h3>
+              <span class="data-badge badge-verified">CREDIBLE SOURCES</span>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <tbody>
+                  <tr><th width="25%">Organization Name</th><td width="25%"><strong id="profOrgName">-</strong></td><th width="25%">Legal / Registered Name</th><td width="25%" id="profLegalName">-</td></tr>
+                  <tr><th>Headquarters</th><td id="profHq">-</td><th>Year Established</th><td id="profEstablished">-</td></tr>
+                  <tr><th>Ownership Structure</th><td id="profOwnership">-</td><th>Industry / Sub-Industry</th><td id="profIndustry">-</td></tr>
+                  <tr><th>Estimated Employees</th><td id="profEmployees">-</td><th>Estimated Annual Revenue</th><td id="profRevenue" class="text-emerald" style="font-weight: 700;">-</td></tr>
+                  <tr><th>Operational Hubs / Branches</th><td id="profBranches">-</td><th>Geographic Presence</th><td id="profPresence">-</td></tr>
+                  <tr><th>Key Management</th><td colspan="3" id="profManagement">-</td></tr>
+                  <tr><th>Major Customers / Markets</th><td colspan="3" id="profCustomers">-</td></tr>
+                  <tr><th>Major Partners</th><td colspan="3" id="profPartners">-</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h3 class="panel-title">Business Overview & Commercial Positioning</h3>
+              <span class="data-badge badge-analytical">ANALYTICAL</span>
+            </div>
+            <div style="font-size: 0.9rem; line-height: 1.6;">
+              <p style="margin-bottom: 0.75rem;"><strong>What the Organization Does:</strong> <span id="profDescription">-</span></p>
+              <p style="margin-bottom: 0.75rem;"><strong>Business Model & Revenue Generation:</strong> <span id="profBusinessModel">-</span></p>
+              <p style="margin-bottom: 0.75rem;"><strong>Value Proposition & Positioning:</strong> <span id="profValueProp">-</span></p>
+            </div>
+          </div>
+
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h3 class="panel-title">SHU Agreement Parameters</h3>
+              <span class="data-badge badge-verified">ACTIVE COLLABORATION</span>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <tbody>
+                  <tr><th width="25%">Agreement Type</th><td width="25%" id="profAgType">-</td><th width="25%">Execution Date</th><td width="25%" id="profAgDate">-</td></tr>
+                  <tr><th>Duration</th><td id="profAgDuration">-</td><th>SHU Contact Lead</th><td id="profShuContact">-</td></tr>
+                  <tr><th>Partner Liaison Lead</th><td id="profOrgContact">-</td><th>Existing Collaborative Projects</th><td id="profExistingAreas">-</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             4. MARKET & GROWTH INTELLIGENCE (Requirement 7)
+             ========================================================================== -->
+        <section class="view-section" id="viewMarketGrowth">
+          <div class="view-header">
+            <div>
+              <h2 class="view-header-title">Market Intelligence & Growth Potential</h2>
+              <p class="view-header-desc">Evaluating target market, competitive intensity, export potential, and underlying growth criteria.</p>
+            </div>
+            <div><span class="data-badge badge-analytical">MARKET DYNAMICS</span></div>
+          </div>
+
+          <div class="kpi-cards-grid" style="grid-template-columns: 1fr 2fr;">
+            <div class="kpi-card" style="justify-content: center; text-align: center;">
+              <div class="kpi-title" style="margin-bottom: 0.5rem;">Qualitative Growth Score</div>
+              <div class="kpi-value text-emerald" id="mktScoreNumber" style="font-size: 3rem;">84/100</div>
+              <div class="kpi-sub" style="justify-content: center;">
+                <span class="data-badge badge-analytical">CRITERIA-BACKED</span>
+              </div>
+            </div>
+            <div class="card-panel" style="margin-bottom: 0;">
+              <h4 style="font-weight: 700; margin-bottom: 0.5rem;">Market Reach & Geography</h4>
+              <p style="font-size: 0.85rem; margin-bottom: 0.35rem;"><strong>Target Market:</strong> <span id="mktTarget">-</span></p>
+              <p style="font-size: 0.85rem; margin-bottom: 0.35rem;"><strong>Domestic Reach:</strong> <span id="mktDomestic">-</span></p>
+              <p style="font-size: 0.85rem;"><strong>International / Export Reach:</strong> <span id="mktInternational">-</span></p>
+            </div>
+          </div>
+
+          <div class="card-panel" style="margin-top: 1.5rem;">
+            <div class="card-panel-header">
+              <h3 class="panel-title">Underlying Growth Score Criteria Breakdown</h3>
+              <span class="data-badge badge-analytical">TRANSPARENT CRITERIA</span>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Growth Assessment Metric</th>
+                    <th>Score</th>
+                    <th>Weight</th>
+                    <th>Evidence Rationale</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="growthCriteriaTableBody">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h3 class="panel-title">Competitive Landscape & Market Trends</h3>
+              <span class="data-badge badge-calculated">INDUSTRY BENCHMARKS</span>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <tbody>
+                  <tr><th width="25%">Industry Growth Rate</th><td width="25%" id="mktGrowthRate">-</td><th width="25%">Competitive Intensity</th><td width="25%" id="mktCompetitive">-</td></tr>
+                  <tr><th>Customer Segments</th><td id="mktSegments">-</td><th>Key Peer Competitors</th><td id="mktCompetitors">-</td></tr>
+                  <tr><th>Macro Market Trends</th><td colspan="3" id="mktTrends">-</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             5. ORGANIZATIONAL CAPACITY (Requirement 8)
+             ========================================================================== -->
+        <section class="view-section" id="viewCapacity">
+          <div class="view-header">
+            <div>
+              <h2 class="view-header-title">Organizational Capacity & Innovation Profile</h2>
+              <p class="view-header-desc">Assessment of human capital workforce, physical infrastructure, laboratories, patents, and AI/automation adoption.</p>
+            </div>
+            <div><span class="data-badge badge-estimated">CAPACITY AUDIT</span></div>
+          </div>
+
+          <div class="kpi-cards-grid">
+            <div class="kpi-card">
+              <div class="kpi-title">Total Manpower</div>
+              <div class="kpi-value text-blue" id="capTotalManpower">-</div>
+              <div class="kpi-sub">Total Personnel</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Technical Workforce</div>
+              <div class="kpi-value text-emerald" id="capTechnicalWorkforce">-</div>
+              <div class="kpi-sub">Engineers & Scientists</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Dedicated R&D Personnel</div>
+              <div class="kpi-value text-purple" id="capRdPersonnel">-</div>
+              <div class="kpi-sub">Active Research Staff</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Management Staff</div>
+              <div class="kpi-value text-amber" id="capManagementWorkforce">-</div>
+              <div class="kpi-sub">Executive & Administrative</div>
+            </div>
+          </div>
+
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h3 class="panel-title">Workforce & Digital Infrastructure</h3>
+              <span class="data-badge badge-calculated">HUMAN CAPITAL</span>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <tbody>
+                  <tr><th width="25%">Sales & Marketing</th><td width="25%" id="capSalesWorkforce">-</td><th width="25%">Operations & QA</th><td width="25%" id="capOpsWorkforce">-</td></tr>
+                  <tr><th>Digital & IT Capability</th><td colspan="3" id="capDigitalCapability">-</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h3 class="panel-title">Physical Infrastructure & Laboratory Assets</h3>
+              <span class="data-badge badge-verified">FACILITIES AUDIT</span>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <tbody>
+                  <tr><th width="25%">Manufacturing Plants</th><td colspan="3" id="capFacilities">-</td></tr>
+                  <tr><th>Laboratory Testing Suites</th><td colspan="3" id="capLabs">-</td></tr>
+                  <tr><th>Offices & Commercial Hubs</th><td id="capOffices">-</td><th>Distribution Network</th><td id="capLogistics">-</td></tr>
+                  <tr><th>Technology Infrastructure</th><td id="capTechInfra">-</td><th>R&D Prototyping Facilities</th><td id="capRdFacilities">-</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h3 class="panel-title">Innovation Capability & Industry 4.0 Readiness</h3>
+              <span class="data-badge badge-analytical">INNOVATION ASSETS</span>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <tbody>
+                  <tr><th width="25%">R&D Activities</th><td colspan="3" id="capRdActivities">-</td></tr>
+                  <tr><th>Patents & Intellectual Property</th><td id="capPatents">-</td><th>Scientific Publications</th><td id="capPublications">-</td></tr>
+                  <tr><th>Product Development Velocity</th><td colspan="3" id="capProductDev">-</td></tr>
+                  <tr><th>AI & Machine Learning Adoption</th><td id="capAiAdoption">-</td><th>Process Automation</th><td id="capAutomation">-</td></tr>
+                  <tr><th>Technology Partnerships</th><td colspan="3" id="capTechPartnerships">-</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             6. STRATEGIC VALUE TO SHU (Requirement 9 & 21)
+             ========================================================================== -->
+        <section class="view-section" id="viewStrategicFit">
+          <div class="view-header">
+            <div>
+              <h2 class="view-header-title">VALUE TO SALIM HABIB UNIVERSITY</h2>
+              <p class="view-header-desc">Evaluation of the 9 strategic collaboration dimensions and overall Partnership Opportunity Index (POI).</p>
+            </div>
+            <div><span class="data-badge badge-analytical">STRATEGIC FIT</span></div>
+          </div>
+
+          <!-- POI Summary Card -->
+          <div class="card-panel" style="background: linear-gradient(135deg, var(--shu-navy-dark), var(--shu-blue-primary)); color: #ffffff;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <span class="calc-tier-badge">COMPOSITE PARTNERSHIP METRIC</span>
+                <h3 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin-top: 0.35rem;">Partnership Opportunity Index (POI)</h3>
+                <p style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.85); max-width: 600px;">
+                  Weighted analytical composite integrating Academic, Research, Student, Faculty, Commercial, Innovation, Entrepreneurship, Revenue, and Strategic potential.
+                </p>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 3.5rem; font-weight: 900; color: var(--shu-gold-primary); line-height: 1;" id="dimPoiOverall">87/100</div>
+                <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255, 255, 255, 0.75);">High Synergy Tier</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 9 Dimensions Grid -->
+          <div class="kpi-cards-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+            <div class="kpi-card">
+              <div class="kpi-title">Academic Value (10%)</div>
+              <div class="kpi-value text-blue" id="dimScoreAcademic">-</div>
+              <div class="kpi-sub">Curriculum & Teaching</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Research Value (15%)</div>
+              <div class="kpi-value text-emerald" id="dimScoreResearch">-</div>
+              <div class="kpi-sub">Sponsored R&D & Grants</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Student Value (15%)</div>
+              <div class="kpi-value text-purple" id="dimScoreStudent">-</div>
+              <div class="kpi-sub">Internships & FYPs</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Faculty Value (10%)</div>
+              <div class="kpi-value text-amber" id="dimScoreFaculty">-</div>
+              <div class="kpi-sub">Consultancy & Development</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Commercial Value (15%)</div>
+              <div class="kpi-value text-emerald" id="dimScoreCommercial">-</div>
+              <div class="kpi-sub">Licensing & Spin-Offs</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Innovation Value (10%)</div>
+              <div class="kpi-value text-blue" id="dimScoreInnovation">-</div>
+              <div class="kpi-sub">Patents & Joint Tech</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Entrepreneurship (10%)</div>
+              <div class="kpi-value text-purple" id="dimScoreEntrepreneurship">-</div>
+              <div class="kpi-sub">Incubation & Startups</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Revenue Potential (10%)</div>
+              <div class="kpi-value text-emerald" id="dimScoreRevenue">-</div>
+              <div class="kpi-sub">Institutional Inflows</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Strategic Value (5%)</div>
+              <div class="kpi-value text-blue" id="dimScoreStrategic">-</div>
+              <div class="kpi-sub">Institutional Brand & CSR</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             7. FACULTY MAPPING & OPPORTUNITY ENGINE (Requirement 11)
+             ========================================================================== -->
+        <section class="view-section" id="viewFacultyMapping">
+          <div class="view-header">
+            <div>
+              <h2 class="view-header-title">Faculty-Specific Opportunity Engine</h2>
+              <p class="view-header-desc">Automatic mapping of organization activities against each SHU faculty with rationale, proposed projects, project sizes and priority.</p>
+            </div>
+            <div><span class="data-badge badge-analytical">FACULTY ENGINE</span></div>
+          </div>
+
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h3 class="panel-title">Faculty Opportunity Mapping Matrix</h3>
+              <span class="data-badge badge-analytical">AUTOMATIC MAPPING</span>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Faculty</th>
+                    <th>Identified Opportunity</th>
+                    <th>Operational Rationale</th>
+                    <th>Potential Project</th>
+                    <th>Estimated Size Tier</th>
+                    <th>Duration</th>
+                    <th>Priority</th>
+                    <th>Data Status</th>
+                  </tr>
+                </thead>
+                <tbody id="facultyOpportunitiesTableBody">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             8. FACULTY OPPORTUNITY HEATMAP (Requirement 26)
+             ========================================================================== -->
+        <section class="view-section" id="viewFacultyHeatmap">
+          <div class="view-header">
+            <div>
+              <h2 class="view-header-title">Faculty Opportunity Heatmap</h2>
+              <p class="view-header-desc">Dynamic visualization of collaboration intensity across collaboration domains and SHU academic faculties.</p>
+            </div>
+            <div><span class="data-badge badge-analytical">DYNAMIC HEATMAP</span></div>
+          </div>
+
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h3 class="panel-title">Cross-Disciplinary Opportunity Intensity</h3>
+              <div style="display: flex; gap: 0.5rem; align-items: center; font-size: 0.75rem;">
+                <span class="heat-cell heat-strategic" style="padding: 2px 8px;">Strategic</span>
+                <span class="heat-cell heat-high" style="padding: 2px 8px;">High</span>
+                <span class="heat-cell heat-medium" style="padding: 2px 8px;">Medium</span>
+                <span class="heat-cell heat-low" style="padding: 2px 8px;">Low</span>
+              </div>
+            </div>
+            <div class="heatmap-container" id="facultyHeatmapContainer">
+              <!-- Dynamically populated heatmap -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             9. CROSS-FACULTY OPPORTUNITIES (Requirement 12)
+             ========================================================================== -->
+        <section class="view-section" id="viewCrossFaculty">
+          <div class="view-header">
+            <div>
+              <h2 class="view-header-title">MULTI-FACULTY COLLABORATIVE OPPORTUNITIES</h2>
+              <p class="view-header-desc">Interdisciplinary high-value projects requiring two or more SHU faculties with problem, solution, deliverables and revenue models.</p>
+            </div>
+            <div><span class="data-badge badge-analytical">INTERDISCIPLINARY</span></div>
+          </div>
+
+          <div id="crossFacultyProjectsList">
+            <!-- Populated dynamically with rich cross-faculty project cards -->
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             10. RECOMMENDED PROJECT PORTFOLIO (Requirement 24, 27, 28)
+             ========================================================================== -->
+        <section class="view-section" id="viewPortfolio">
+          <div class="view-header">
+            <div>
+              <h2 class="view-header-title">Recommended Project Portfolio & Prioritization</h2>
+              <p class="view-header-desc">Prioritized project portfolio grouped into Quick Wins (1–3m), Medium-Term (3–12m), and Strategic Initiatives (1–3y).</p>
+            </div>
+            <div><span class="data-badge badge-analytical">ACTIONABLE PORTFOLIO</span></div>
+          </div>
+
+          <!-- Quick Wins -->
+          <div class="card-panel" style="border-top: 4px solid #0284c7;">
+            <div class="card-panel-header">
+              <div>
+                <h3 class="panel-title" style="color: #0284c7;">QUICK WINS (Immediate: 1–3 Months)</h3>
+                <small class="text-muted">High-feasibility projects that establish operational momentum and generate initial revenue</small>
+              </div>
+              <span class="data-badge badge-verified">1–3 MONTHS</span>
+            </div>
+            <div id="portfolioQuickWinsList"></div>
+          </div>
+
+          <!-- Medium Term -->
+          <div class="card-panel" style="border-top: 4px solid #059669;">
+            <div class="card-panel-header">
+              <div>
+                <h3 class="panel-title" style="color: #059669;">MEDIUM-TERM OPPORTUNITIES (3–12 Months)</h3>
+                <small class="text-muted">Substantial applied research and operational consulting projects requiring structured milestones</small>
+              </div>
+              <span class="data-badge badge-calculated">3–12 MONTHS</span>
+            </div>
+            <div id="portfolioMediumTermList"></div>
+          </div>
+
+          <!-- Strategic -->
+          <div class="card-panel" style="border-top: 4px solid #7c3aed;">
+            <div class="card-panel-header">
+              <div>
+                <h3 class="panel-title" style="color: #7c3aed;">STRATEGIC INITIATIVES (1–3 Years)</h3>
+                <small class="text-muted">Institutional centers of excellence, patent licensing, and long-term joint ventures</small>
+              </div>
+              <span class="data-badge badge-analytical">1–3 YEARS</span>
+            </div>
+            <div id="portfolioStrategicList"></div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             11. PROJECT CALCULATORS (Requirement 13 & 14)
+             ========================================================================== -->
+        <section class="view-section" id="viewCalculators">
+          <div class="view-header">
+            <div>
+              <h2 class="view-header-title">Intelligent Project Calculators</h2>
+              <p class="view-header-desc">Dynamic project sizing and duration estimation based on manpower, faculty time, lab infrastructure, and complexity factors.</p>
+            </div>
+            <div><span class="data-badge badge-calculated">INTERACTIVE CALC</span></div>
+          </div>
+
+          <div class="calculator-grid">
+            <!-- Controls -->
+            <div class="calc-controls-box">
+              <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">
+                Project Cost Parameters
+              </h3>
+
+              <div class="calc-form-group">
+                <div class="calc-label-row">
+                  <span>Research Assistants / Engineers</span>
+                  <span id="lblResearchers">2</span>
+                </div>
+                <input type="range" id="calcResearchers" class="calc-slider" min="1" max="8" value="2">
+              </div>
+
+              <div class="calc-form-group">
+                <div class="calc-label-row">
+                  <span>Faculty Consultant Days</span>
+                  <span id="lblFacultyDays">15</span>
+                </div>
+                <input type="range" id="calcFacultyDays" class="calc-slider" min="5" max="60" value="15" step="5">
+              </div>
+
+              <div class="calc-form-group">
+                <div class="calc-label-row">
+                  <span>Project Duration (Months)</span>
+                  <span id="lblDurationMonths">6</span>
+                </div>
+                <input type="range" id="calcDurationMonths" class="calc-slider" min="1" max="24" value="6">
+              </div>
+
+              <div class="calc-form-group">
+                <div class="calc-label-row">
+                  <span>Specialized Lab Hours</span>
+                  <span id="lblLabHours">80</span>
+                </div>
+                <input type="range" id="calcLabHours" class="calc-slider" min="10" max="400" value="80" step="10">
+              </div>
+
+              <div class="calc-form-group">
+                <div class="calc-label-row">
+                  <span>Equipment & Software (PKR)</span>
+                </div>
+                <select id="calcEquipCost" class="form-select">
+                  <option value="250000">Basic Software/Consumables (PKR 250,000)</option>
+                  <option value="500000" selected>Standard Analytical Equipment (PKR 500,000)</option>
+                  <option value="1500000">Advanced Lab Prototyping (PKR 1,500,000)</option>
+                  <option value="4000000">High-End GPU / Pilot Tooling (PKR 4,000,000)</option>
+                  <option value="12000000">Custom Industrial Test Rig (PKR 12,000,000)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Live Calculation Output -->
+            <div class="calc-results-card">
+              <div>
+                <span class="calc-tier-badge" id="calcResultTier">Medium Tier</span>
+                <div style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.8);">Estimated Project Investment</div>
+                <div class="calc-cost-display" id="calcResultCost">PKR 4,250,000</div>
+                <div style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.75);">Includes 20% institutional overhead recovery</div>
+              </div>
+
+              <ul class="calc-breakdown-list">
+                <li><span>Manpower & Faculty:</span><strong id="calcCostManpower">-</strong></li>
+                <li><span>Laboratory Testing:</span><strong id="calcCostLab">-</strong></li>
+                <li><span>Equipment & Consumables:</span><strong id="calcCostEquip">-</strong></li>
+                <li><span>Institutional Overhead:</span><strong id="calcCostOverhead">-</strong></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             12. STUDENTS & INTERNSHIPS (Requirement 15 & 16)
+             ========================================================================== -->
+        <section class="view-section" id="viewStudents">
+          <div class="view-header">
+            <div>
+              <h2 class="view-header-title">Student Opportunities & Internship Engine</h2>
+              <p class="view-header-desc">Estimated annual internship placement capacity, relevant academic disciplines, and student capstone FYP quotas.</p>
+            </div>
+            <div><span class="data-badge badge-calculated">STUDENT TALENT</span></div>
+          </div>
+
+          <div class="kpi-cards-grid">
+            <div class="kpi-card">
+              <div class="kpi-title">Internship Score</div>
+              <div class="kpi-value text-emerald" id="stuInternshipScore">-</div>
+              <div class="kpi-sub">Capacity & Quality Rating</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Annual Intern Capacity</div>
+              <div class="kpi-value text-blue" id="stuAnnualCapacity">-</div>
+              <div class="kpi-sub">8–12 Week Placements</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Graduate Conversion</div>
+              <div class="kpi-value text-purple" id="stuConversionRate" style="font-size: 1.1rem; line-height: 1.3;">-</div>
+              <div class="kpi-sub">Permanent Placement Rate</div>
+            </div>
+          </div>
+
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h3 class="panel-title">Estimated Annual Student Project (FYP) Capacity by Faculty</h3>
+              <span class="data-badge badge-estimated">ANNUAL CAPACITY</span>
+            </div>
+            <div class="kpi-cards-grid" id="stuCapacityByFaculty">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h3 class="panel-title">Required Competencies & Skills</h3>
+              <span class="data-badge badge-verified">CURRICULUM ALIGNMENT</span>
+            </div>
+            <p id="stuSkillsRequired" style="font-size: 0.9rem; line-height: 1.6;">-</p>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             13. RESEARCH & COMMERCIALIZATION (Requirement 17, 18, 19, 20)
+             ========================================================================== -->
+        <section class="view-section" id="viewResearch">
+          <div class="view-header">
+            <div>
+              <h2 class="view-header-title">Research, Consultancy & Commercialization</h2>
+              <p class="view-header-desc">Opportunities for sponsored research, executive education masterclasses, faculty consultancy, and technology spin-offs.</p>
+            </div>
+            <div><span class="data-badge badge-analytical">INNOVATION R&D</span></div>
+          </div>
+
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h3 class="panel-title">Sponsored Research Potential</h3>
+              <span class="data-badge badge-analytical">COLLABORATION LEVEL</span>
+            </div>
+            <div style="font-size: 0.9rem; line-height: 1.6;">
+              <p style="margin-bottom: 0.5rem;"><strong>Research Synergy Level:</strong> <span class="calc-tier-badge" id="resPotentialLevel">-</span></p>
+              <p><strong>Operational Rationale:</strong> <span id="resRationale">-</span></p>
+            </div>
+          </div>
+
+          <div class="charts-grid-2col">
+            <div class="card-panel" style="margin-bottom: 0;">
+              <h3 class="panel-title" style="margin-bottom: 0.75rem;">Consultancy Opportunities</h3>
+              <div id="consultancyOpportunitiesList"></div>
+            </div>
+
+            <div class="card-panel" style="margin-bottom: 0;">
+              <h3 class="panel-title" style="margin-bottom: 0.75rem;">Executive Education & Training</h3>
+              <div id="trainingProgramsList"></div>
+            </div>
+          </div>
+
+          <div class="card-panel" style="margin-top: 1.5rem;">
+            <div class="card-panel-header">
+              <h3 class="panel-title">Commercialization & Technology Transfer Pathways</h3>
+              <span class="data-badge badge-analytical">IP LICENSING & SPINOFFS</span>
+            </div>
+            <div id="commercializationList"></div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             14. FINANCIAL SCENARIOS (Requirement 22)
+             ========================================================================== -->
+        <section class="view-section" id="viewFinancial">
+          <div class="view-header">
+            <div>
+              <h2 class="view-header-title">Annual Financial Opportunity Scenarios</h2>
+              <p class="view-header-desc">Estimated potential annual revenue, project scale, and student engagement under three distinct collaboration scenarios.</p>
+            </div>
+            <div><span class="data-badge badge-estimated">SCENARIO MODELING</span></div>
+          </div>
+
+          <div class="scenarios-grid">
+            <!-- Conservative -->
+            <div class="scenario-card">
+              <div class="scenario-badge">Conservative Scenario</div>
+              <div class="scenario-revenue" id="scenConsRevenue">PKR 98 Lakh</div>
+              <div class="scenario-stats-row"><span>Active Projects:</span><strong id="scenConsProjects">4 Projects</strong></div>
+              <div class="scenario-stats-row"><span>Student Placements:</span><strong id="scenConsStudents">22 Students</strong></div>
+              <div class="scenario-stats-row"><span>Faculty Leads:</span><strong id="scenConsFaculty">6 Faculty</strong></div>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.75rem;" id="scenConsDesc">-</p>
+            </div>
+
+            <!-- Expected Target -->
+            <div class="scenario-card target-scenario">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="scenario-badge" style="color: var(--shu-blue-primary);">Expected (Target) Scenario</div>
+                <span class="data-badge badge-verified">TARGET</span>
+              </div>
+              <div class="scenario-revenue" id="scenExpRevenue">PKR 2.45 Cr</div>
+              <div class="scenario-stats-row"><span>Active Projects:</span><strong id="scenExpProjects">8 Projects</strong></div>
+              <div class="scenario-stats-row"><span>Student Placements:</span><strong id="scenExpStudents">45 Students</strong></div>
+              <div class="scenario-stats-row"><span>Faculty Leads:</span><strong id="scenExpFaculty">14 Faculty</strong></div>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.75rem;" id="scenExpDesc">-</p>
+            </div>
+
+            <!-- High Opportunity -->
+            <div class="scenario-card">
+              <div class="scenario-badge">High Opportunity Scenario</div>
+              <div class="scenario-revenue" id="scenHighRevenue">PKR 5.80 Cr</div>
+              <div class="scenario-stats-row"><span>Active Projects:</span><strong id="scenHighProjects">14 Projects</strong></div>
+              <div class="scenario-stats-row"><span>Student Placements:</span><strong id="scenHighStudents">75 Students</strong></div>
+              <div class="scenario-stats-row"><span>Faculty Leads:</span><strong id="scenHighFaculty">26 Faculty</strong></div>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.75rem;" id="scenHighDesc">-</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             15. 3-YEAR ROADMAP & 5D MAP (Requirement 23 & 40)
+             ========================================================================== -->
+        <section class="view-section" id="viewRoadmap">
+          <div class="view-header">
+            <div>
+              <h2 class="view-header-title">Three-Year Partnership Roadmap & Opportunity Map</h2>
+              <p class="view-header-desc">Phased progression from Year 1 Engagement to Year 3 Center of Excellence Scale, structured under the 5D Framework.</p>
+            </div>
+            <div><span class="data-badge badge-analytical">3-YEAR STRATEGY</span></div>
+          </div>
+
+          <!-- 3-Year Roadmap Timeline Grid -->
+          <div class="roadmap-timeline-grid">
+            <div class="roadmap-year-card rm-year-1">
+              <div style="font-size: 0.75rem; font-weight: 800; color: #0284c7; text-transform: uppercase;">Phase 1</div>
+              <h3 style="font-size: 1.15rem; font-weight: 800; margin: 0.25rem 0 0.75rem 0;">YEAR 1 — ENGAGE</h3>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Institutional Foundations, Industry Visits & Quick-Win Pilots</p>
+              <div id="roadmapYear1Milestones"></div>
+            </div>
+
+            <div class="roadmap-year-card rm-year-2">
+              <div style="font-size: 0.75rem; font-weight: 800; color: #059669; text-transform: uppercase;">Phase 2</div>
+              <h3 style="font-size: 1.15rem; font-weight: 800; margin: 0.25rem 0 0.75rem 0;">YEAR 2 — COLLABORATE</h3>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Funded R&D, Prototyping & Cross-Faculty Programs</p>
+              <div id="roadmapYear2Milestones"></div>
+            </div>
+
+            <div class="roadmap-year-card rm-year-3">
+              <div style="font-size: 0.75rem; font-weight: 800; color: #7c3aed; text-transform: uppercase;">Phase 3</div>
+              <h3 style="font-size: 1.15rem; font-weight: 800; margin: 0.25rem 0 0.75rem 0;">YEAR 3 — SCALE</h3>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Center of Excellence, Commercial IP Licensing & Spin-offs</p>
+              <div id="roadmapYear3Milestones"></div>
+            </div>
+          </div>
+
+          <!-- SHU 5D Partnership Opportunity Map (Requirement 40) -->
+          <div class="card-panel" style="margin-top: 2rem;">
+            <div class="card-panel-header">
+              <h3 class="panel-title">SHU 5D Partnership Opportunity Map (Requirement 40)</h3>
+              <span class="data-badge badge-analytical">5 DIMENSIONS</span>
+            </div>
+            <div class="opportunity-5d-grid">
+              <div class="dim-5d-card">
+                <div class="dim-5d-header dim-1-learn">1. LEARN</div>
+                <p id="dim5dLearn" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">-</p>
+              </div>
+              <div class="dim-5d-card">
+                <div class="dim-5d-header dim-2-research">2. RESEARCH</div>
+                <p id="dim5dResearch" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">-</p>
+              </div>
+              <div class="dim-5d-card">
+                <div class="dim-5d-header dim-3-solve">3. SOLVE</div>
+                <p id="dim5dSolve" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">-</p>
+              </div>
+              <div class="dim-5d-card">
+                <div class="dim-5d-header dim-4-build">4. BUILD</div>
+                <p id="dim5dBuild" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">-</p>
+              </div>
+              <div class="dim-5d-card">
+                <div class="dim-5d-header dim-5-scale">5. SCALE</div>
+                <p id="dim5dScale" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">-</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             16. SOURCES & EVIDENCE (Requirement 34 & 35)
+             ========================================================================== -->
+        <section class="view-section" id="viewSources">
+          <div class="view-header">
+            <div>
+              <h2 class="view-header-title">Sources of Evidence & Confidence Levels</h2>
+              <p class="view-header-desc">Transparent catalog of all verified documents, registries, derived models, and analytical assumptions.</p>
+            </div>
+            <div><span class="data-badge badge-verified">TRANSPARENCY</span></div>
+          </div>
+
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h3 class="panel-title">Documented Sources & Citations</h3>
+              <span class="data-badge badge-verified">EVIDENCE REGISTRY</span>
+            </div>
+            <div id="sourcesAndEvidenceList">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             17. COMPARE PARTNERS (Requirement 30)
+             ========================================================================== -->
+        <section class="view-section" id="viewComparison">
+          <div class="view-header">
+            <div>
+              <h2 class="view-header-title">Compare Industry Partners</h2>
+              <p class="view-header-desc">Side-by-side strategic comparison matrix showing POI, revenue potential, research synergy, and student capacity.</p>
+            </div>
+            <div><span class="data-badge badge-calculated">MULTI-PARTNER</span></div>
+          </div>
+
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h3 class="panel-title">Select Partners to Compare (Up to 4)</h3>
+            </div>
+            <div id="comparisonPartnerSelector" style="margin-bottom: 1rem;">
+              <!-- Checkboxes populated dynamically -->
+            </div>
+            <div class="table-responsive" id="comparisonMatrixContainer">
+              <!-- Comparison table -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             18. PARTNER DATABASE (Requirement 31)
+             ========================================================================== -->
+        <section class="view-section" id="viewDatabase">
+          <div class="view-header">
+            <div>
+              <h2 class="view-header-title">Partner Intelligence Database</h2>
+              <p class="view-header-desc">Search, filter, manage, and export all saved university industry partner assessments.</p>
+            </div>
+            <div class="view-header-actions">
+              <button class="btn-secondary" id="btnExportDbJson">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Export DB (JSON)</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="card-panel">
+            <!-- Quick Sector Filter Pills (Picture 1 Enhancement) -->
+            <div class="db-sector-pills" id="dbSectorPills">
+              <button class="sector-pill active" data-sector="all">All Organizations (20)</button>
+              <button class="sector-pill" data-sector="pharma">🏢 Pharmaceuticals & Health (8)</button>
+              <button class="sector-pill" data-sector="tech">💻 Technology & AI (5)</button>
+              <button class="sector-pill" data-sector="chem">🧪 Chemicals & Polymers (2)</button>
+              <button class="sector-pill" data-sector="bank">🏦 Banking & FinTech (3)</button>
+              <button class="sector-pill" data-sector="conglomerate">🌐 Conglomerates & Agri (2)</button>
+            </div>
+
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem;">
+              <input type="text" id="dbSearchInput" class="form-input" style="max-width: 320px;" placeholder="Search by name, ticker (e.g. SSS/SYS), sector...">
+              <select id="dbFilterIndustry" class="form-select" style="max-width: 220px;">
+                <option value="all">All Industries</option>
+                <option value="Pharma">Pharmaceuticals & Health</option>
+                <option value="Tech">Technology, Software & AI</option>
+                <option value="Chemical">Chemicals & Synthetics</option>
+                <option value="Banking">Commercial Banking & FinTech</option>
+                <option value="Conglomerate">Conglomerate & Agribusiness</option>
+              </select>
+              <select id="dbFilterStatus" class="form-select" style="max-width: 180px;">
+                <option value="all">All Agreement Statuses</option>
+                <option value="Active">Active</option>
+                <option value="Strategic">Strategic Partnership</option>
+                <option value="Developing">Developing</option>
+              </select>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Organization & PSX Ticker</th>
+                    <th>Live PSX Market Quote</th>
+                    <th>Industry & Sector</th>
+                    <th>Agreement</th>
+                    <th>POI Score</th>
+                    <th>Expected Revenue</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="databaseTableBody">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             19. ADMIN SETTINGS (Requirement 32)
+             ========================================================================== -->
+        <section class="view-section" id="viewSettings">
+          <div class="view-header">
+            <div>
+              <h2 class="view-header-title">Administrator Settings & Parameters</h2>
+              <p class="view-header-desc">Configure partnership scoring weights, faculty database, project cost tiers, and data management.</p>
+            </div>
+            <div><span class="data-badge badge-verified">ADMIN CONSOLE</span></div>
+          </div>
+
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h3 class="panel-title">Partnership Opportunity Index (POI) Dimension Weights (Total: 100%)</h3>
+            </div>
+            <div class="form-grid-2col">
+              <div class="form-group">
+                <label class="form-label" for="setWeightAcademic">Academic Value Weight (%)</label>
+                <input type="number" id="setWeightAcademic" class="form-input" value="10">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="setWeightResearch">Research Value Weight (%)</label>
+                <input type="number" id="setWeightResearch" class="form-input" value="15">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="setWeightStudent">Student Value Weight (%)</label>
+                <input type="number" id="setWeightStudent" class="form-input" value="15">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="setWeightFaculty">Faculty Value Weight (%)</label>
+                <input type="number" id="setWeightFaculty" class="form-input" value="10">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="setWeightCommercial">Commercial Value Weight (%)</label>
+                <input type="number" id="setWeightCommercial" class="form-input" value="15">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="setWeightInnovation">Innovation Value Weight (%)</label>
+                <input type="number" id="setWeightInnovation" class="form-input" value="10">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="setWeightEntrepreneurship">Entrepreneurship Weight (%)</label>
+                <input type="number" id="setWeightEntrepreneurship" class="form-input" value="10">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="setWeightRevenue">Revenue Potential Weight (%)</label>
+                <input type="number" id="setWeightRevenue" class="form-input" value="10">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="setWeightStrategic">Strategic Value Weight (%)</label>
+                <input type="number" id="setWeightStrategic" class="form-input" value="5">
+              </div>
+            </div>
+            <div style="text-align: right; margin-top: 1rem;">
+              <button class="btn-primary" id="btnSaveAdminSettings">Save Scoring Weights</button>
+            </div>
+          </div>
+
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h3 class="panel-title">Database Backup & Reset</h3>
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+              <div>
+                <label class="btn-secondary" style="cursor: pointer;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  <span>Import JSON Database</span>
+                  <input type="file" id="inpImportJsonFile" accept=".json" style="display: none;">
+                </label>
+              </div>
+              <button class="btn-secondary" id="btnResetDbDefaults" style="color: #dc2626;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                <span>Reset to Demonstration Defaults</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ==========================================================================
+       FULL EXECUTIVE REPORT MODAL (Requirement 29)
+       ========================================================================== -->
+  <div class="modal-backdrop" id="reportModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <div class="report-logo" style="font-size: 1.1rem;">SHU-ORIC</div>
+          <h3 class="modal-title">Executive Partnership Intelligence Report</h3>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <button class="btn-secondary" id="btnPrintPdf" title="Print or Save as PDF">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            <span>Print / PDF</span>
+          </button>
+          <button class="btn-secondary" id="btnExportWord" title="Export as Microsoft Word (.doc)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <span>Word (.doc)</span>
+          </button>
+          <button class="btn-secondary" id="btnExportJson" title="Export as JSON Data">
+            <span>JSON</span>
+          </button>
+          <button class="btn-secondary" id="btnExportCsv" title="Export Opportunity Matrix CSV">
+            <span>CSV</span>
+          </button>
+          <button class="modal-close-btn modal-close-trigger">&times;</button>
+        </div>
+      </div>
+
+      <div class="modal-body" id="reportModalContent">
+        <!-- Rendered dynamically by SHU_REPORTS -->
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary modal-close-trigger">Close Report</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Toast Notification Element -->
+  <div class="toast-notification" id="appToast">Notification Message</div>
+
+  <!-- Core Application Scripts (Modular Architecture) -->
+  <script src="js/config.js"></script>
+  <script src="js/demo-data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/live-psx-service.js"></script>
+  <script src="js/ai-engine.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/reports.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

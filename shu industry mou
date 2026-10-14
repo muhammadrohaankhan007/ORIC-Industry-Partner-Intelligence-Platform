@@ -1,0 +1,87 @@
+# SALIM HABIB UNIVERSITY (SHU)
+## INDUSTRY PARTNER INTELLIGENCE & OPPORTUNITY ASSESSMENT PLATFORM
+### Institutional Framework & System Specification Manual
+
+---
+
+## 1. OBJECTIVE & EXECUTIVE MANDATE
+
+The **SHU Industry Partner Intelligence & Opportunity Assessment Platform** functions as an enterprise-grade University–Industry Partnership Intelligence System developed for **Salim Habib University (SHU)**.
+
+Its mandate is not merely to display static corporate profiles, but to actively evaluate:
+1. **The Organization**: Ownership, history, footprint, leadership, and operational scale.
+2. **Business & Industry**: Core value propositions, business models, revenue engines, and customer segments.
+3. **Market Position & Reach**: Domestic distribution, export markets, market growth, and competitive peer benchmarking.
+4. **Growth Potential**: Qualitative growth scoring (0–100) grounded in transparent underlying criteria.
+5. **Organizational Capacity**: Human capital, technical and R&D workforce, physical manufacturing plants, laboratories, and technology infrastructure.
+6. **Technology & Innovation Potential**: R&D expenditure, patents, publications, digital transformation, and AI/automation maturity.
+7. **Strategic Value to SHU**: 9 dimensions (Academic, Research, Student, Faculty, Commercial, Innovation, Entrepreneurship, Revenue, and Strategic fit).
+8. **Faculty Opportunities**: Systematic mapping across all 5 SHU faculties with operational rationales, potential projects, cost tiers, and duration estimates.
+9. **Cross-Faculty Initiatives**: High-value interdisciplinary projects requiring collaboration between two or more faculties.
+10. **Student & Internship Potential**: Annual placement quotas, relevant disciplines, conversion rates, and capstone FYP capacities.
+11. **Research & Consultancy**: Sponsored research, clinical trials, faculty advisory, and executive education programs.
+12. **Commercialization Pathways**: Spinoff companies, patent licensing, and technology transfer agreements.
+13. **Financial Opportunity Scenarios**: Conservative, Expected (Target), and High Opportunity annual revenue projections.
+14. **3-Year Strategic Roadmap**: Year 1 (Engage), Year 2 (Collaborate), and Year 3 (Scale).
+15. **The SHU 5D Opportunity Framework**: LEARN, RESEARCH, SOLVE, BUILD, and SCALE.
+
+---
+
+## 2. STRICT DATA INTEGRITY PRINCIPLES
+
+Every finding, metric, and analytical conclusion throughout the platform displays its verified status tier:
+
+| Data Badge | Color Code | Methodological Definition |
+| :--- | :--- | :--- |
+| **VERIFIED** | Emerald Green | Information obtained directly from primary credible sources (audited reports, government registries, DRAP certifications). |
+| **CALCULATED** | Cyan Blue | Information mathematically derived from verified or known parameters (e.g. employee-to-revenue ratios). |
+| **ESTIMATED** | Amber Orange | Reasonable industry benchmark estimates based on available empirical evidence. |
+| **ANALYTICAL** | Indigo Purple | Strategic conclusions, potential scores, and AI models produced by the intelligence engine. |
+
+Major findings also carry explicit **Confidence Indicators** (`High`, `Medium`, `Low`) with transparent rationales.
+
+---
+
+## 3. BUILT-IN DEMONSTRATION ORGANIZATIONS
+
+The platform comes preloaded with three comprehensive demonstration organizations watermarked `DEMO DATA — NOT REAL ORGANIZATIONS`:
+
+### 1. Apex Pharma Solutions Ltd. (Pharmaceuticals & Biotechnology MNC)
+- **Sector**: Formulation, Biologics & API Synthesis
+- **Scale**: PKR 8.2 Billion annual revenue, 1,450 employees, 6 operational plants.
+- **Agreement**: 36-Month Active MOU with SHU Faculty of Pharmacy.
+- **Key Focus**: Novel sustained-release formulations, Zone IVb stability testing, cleanroom microbial monitoring, AI-driven cold-chain telemetry, and a co-funded Joint Center of Excellence in Advanced Drug Delivery.
+
+### 2. NeuroTech AI Systems (Technology, Software & Enterprise AI)
+- **Sector**: Enterprise AI, Computer Vision & Digital HealthTech
+- **Scale**: PKR 2.4 Billion annual revenue, 280 specialized personnel, Series-A backed.
+- **Agreement**: 24-Month Strategic Partnership with SHU Faculty of Computer Science & AI.
+- **Key Focus**: Multimodal medical imaging, edge AI ultrasound diagnostics, student fellowship sponsorships, corporate LLM bootcamps, and health-tech venture spin-offs.
+
+### 3. National Health Diagnostics & Hospital Network (Healthcare Services)
+- **Sector**: Tertiary Care Hospitals, Pathology Laboratories & Surgical Centers
+- **Scale**: PKR 16.5 Billion annual revenue, 5,800 employees, 14 hospitals, 120 collection labs.
+- **Agreement**: 48-Month MoA with SHU Faculty of Biosciences & Healthcare.
+- **Key Focus**: Clinical pharmacy clerkships, hospital infection AMR surveillance, biomedical equipment fleet calibration, activity-based costing, and a formal University Hospital Teaching Annex.
+
+---
+
+## 4. SHU ACADEMIC FACULTY COVERAGE
+
+The configurable faculty database encompasses all major academic divisions of Salim Habib University:
+1. **Faculty of Computer Science / Computing**: AI, Machine Learning, Data Science, Cybersecurity, Software Engineering, Cloud Systems, IoT, Blockchain, Business Intelligence, and Automation.
+2. **Faculty of Business & Management**: Corporate Strategy, Digital Marketing, Finance, HR, Supply Chain Management, Entrepreneurship, Business Analytics, ESG/CSR, and Fintech.
+3. **Faculty of Biosciences**: Biotechnology, Industrial Microbiology, Molecular Biology, Food Biotech, Environmental Bioremediation, and Bioinformatics.
+4. **Faculty of Pharmacy**: Novel Drug Delivery, Formulation, Stability Studies, Pharmacology, Quality Control, DRAP Regulatory Affairs, and Clinical Bioequivalence.
+5. **Faculty of Biomedical Engineering**: Medical Devices, Diagnostic Instrumentation, Biosensors, Medical Imaging, Rehabilitation Engineering, and Digital Health.
+
+---
+
+## 5. PLATFORM ACCESS & EXECUTION
+
+- **Direct Offline Access**: Open `index.html` directly in any web browser.
+- **Local Server**: Running on `http://localhost:3000` via `node server.js`.
+- **Export Formats**:
+  - Full Executive Partnership Report (22 sections) exportable to **Print / PDF**, **Microsoft Word (.doc)**, **JSON Data**, and **CSV Matrix**.
+  - LocalStorage database backup and restore via **JSON**.
+- **Multi-Currency Engine**: Live conversion across **PKR** (default), **USD**, **AED**, **GBP**, and **EUR**.
